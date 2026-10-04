@@ -6,58 +6,126 @@ const RingsAnimation = () => {
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "center center"]
+    offset: ["start end", "end start"]
   });
 
-  // Left ring animation
-  const leftX = useTransform(scrollYProgress, [0, 1], ["-50vw", "-10px"]);
-  const leftY = useTransform(scrollYProgress, [0, 1], ["-200px", "0px"]);
-  const leftRotate = useTransform(scrollYProgress, [0, 1], [-180, 0]);
-  
-  // Right ring animation
-  const rightX = useTransform(scrollYProgress, [0, 1], ["50vw", "10px"]);
-  const rightY = useTransform(scrollYProgress, [0, 1], ["-200px", "0px"]);
-  const rightRotate = useTransform(scrollYProgress, [0, 1], [180, 0]);
 
-  // Glow and text animation
-  const glowOpacity = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
-  const textOpacity = useTransform(scrollYProgress, [0.9, 1], [0, 1]);
-  const textY = useTransform(scrollYProgress, [0.9, 1], [20, 0]);
+  
+  // Parallax convergence: Ring S (left) and Ring A (right) approach & interlock gracefully
+  const ringLeftX = useTransform(scrollYProgress, [0.1, 0.5], ["-35vw", "-18px"]);
+  const ringRightX = useTransform(scrollYProgress, [0.1, 0.5], ["35vw", "18px"]);
+  
+  const ringLeftRotate = useTransform(scrollYProgress, [0.1, 0.5], [-180, 0]);
+  const ringRightRotate = useTransform(scrollYProgress, [0.1, 0.5], [180, 0]);
+
+  // Parallax depth for text & quote
+  const textY = useTransform(scrollYProgress, [0.35, 0.65], [40, -10]);
+  const textOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
 
   return (
-    <section ref={containerRef} className="min-h-screen w-full flex flex-col items-center justify-center bg-ivory relative overflow-hidden py-24">
-      
-      <div className="relative w-full max-w-lg mx-auto h-[250px] md:h-[300px] flex items-center justify-center mb-8">
-        {/* Glow effect behind rings */}
-        <motion.div 
-          style={{ opacity: glowOpacity }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 md:w-64 md:h-64 bg-champagne-dark/20 rounded-full blur-3xl"
-        />
+    <section 
+      ref={containerRef} 
+      className="relative min-h-screen w-full flex flex-col items-center justify-center bg-[#1A1815] text-white overflow-hidden py-28 border-y border-champagne-dark/20"
+    >
 
-        {/* Left Ring */}
-        <motion.div
-          style={{ x: leftX, y: leftY, rotate: leftRotate }}
-          className="absolute border-[6px] md:border-[8px] border-champagne-dark w-24 h-24 md:w-32 md:h-32 rounded-full shadow-[0_0_15px_rgba(197,160,89,0.5)] z-10"
-        />
 
-        {/* Right Ring */}
+      {/* Title Tag */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="relative z-20 text-center mb-10"
+      >
+        <span className="text-xs uppercase tracking-[0.4em] text-champagne-dark font-medium">
+          The Holy Covenant
+        </span>
+      </motion.div>
+
+      {/* Parallax Rings Container Stage */}
+      <div className="relative w-full max-w-lg mx-auto h-[260px] md:h-[320px] flex items-center justify-center z-20">
+
+        {/* Left Groom Ring S */}
         <motion.div
-          style={{ x: rightX, y: rightY, rotate: rightRotate }}
-          className="absolute border-[6px] md:border-[8px] border-champagne w-24 h-24 md:w-32 md:h-32 rounded-full shadow-[0_0_15px_rgba(247,231,206,0.5)] z-20 mix-blend-multiply"
-        />
+          style={{ x: ringLeftX, rotate: ringLeftRotate }}
+          className="absolute z-10 w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48 flex items-center justify-center drop-shadow-lg"
+        >
+          <svg viewBox="0 0 100 100" className="w-full h-full">
+            <defs>
+              <linearGradient id="ringMatteGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#E6C594" />
+                <stop offset="50%" stopColor="#C5A059" />
+                <stop offset="100%" stopColor="#997A3D" />
+              </linearGradient>
+            </defs>
+            {/* Outer Gold Band */}
+            <circle cx="50" cy="50" r="41" fill="none" stroke="url(#ringMatteGold)" strokeWidth="8" />
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#F5EFE6" strokeWidth="0.8" strokeOpacity="0.4" />
+            {/* Monogram S */}
+            <text 
+              x="50" 
+              y="56" 
+              textAnchor="middle" 
+              fill="#F4E7D3" 
+              fontSize="20" 
+              fontFamily="Playfair Display" 
+              fontWeight="600"
+            >
+              S
+            </text>
+          </svg>
+        </motion.div>
+
+        {/* Right Bride Ring A with Solitaire Diamond */}
+        <motion.div
+          style={{ x: ringRightX, rotate: ringRightRotate }}
+          className="absolute z-20 w-28 h-28 sm:w-36 sm:h-36 md:w-48 md:h-48 flex items-center justify-center drop-shadow-lg"
+        >
+          <svg viewBox="0 0 100 100" className="w-full h-full">
+            <defs>
+              <linearGradient id="ringRoseGold" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#FFFDD0" />
+                <stop offset="50%" stopColor="#E6C594" />
+                <stop offset="100%" stopColor="#B78A4D" />
+              </linearGradient>
+            </defs>
+            {/* Outer Gold Band */}
+            <circle cx="50" cy="50" r="41" fill="none" stroke="url(#ringRoseGold)" strokeWidth="8" />
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#FFFFFF" strokeWidth="0.8" strokeOpacity="0.5" />
+            
+            {/* Solitaire Diamond Setting */}
+            <polygon points="50,4 56,12 50,20 44,12" fill="#FFFFFF" stroke="#E6C594" strokeWidth="0.5" />
+            
+            {/* Monogram A */}
+            <text 
+              x="50" 
+              y="56" 
+              textAnchor="middle" 
+              fill="#FFFFFF" 
+              fontSize="20" 
+              fontFamily="Playfair Display" 
+              fontWeight="600"
+            >
+              A
+            </text>
+          </svg>
+        </motion.div>
       </div>
 
+      {/* Parallax Text Content */}
       <motion.div 
-        style={{ opacity: textOpacity, y: textY }}
-        className="text-center z-30"
+        style={{ y: textY, opacity: textOpacity }}
+        className="text-center z-30 max-w-2xl px-6 flex flex-col items-center mt-6"
       >
-        <h2 className="font-serif text-4xl md:text-5xl text-champagne-dark mb-4">
-          Two Hearts
+        <h2 className="font-serif text-3xl md:text-5xl text-champagne mb-4 tracking-tight font-normal">
+          Two Hearts Bound In Love
         </h2>
-        <div className="w-12 h-px bg-text-muted mx-auto mb-4"></div>
-        <h2 className="font-serif text-4xl md:text-5xl text-text-main">
-          One Promise
-        </h2>
+
+        <p className="font-cormorant text-xl md:text-2xl text-white/80 italic leading-relaxed font-light mb-6 max-w-lg">
+          "What therefore God has joined together, let no man put asunder."
+        </p>
+
+        <div className="w-16 h-0.5 gold-gradient-bg opacity-70"></div>
       </motion.div>
     </section>
   );
