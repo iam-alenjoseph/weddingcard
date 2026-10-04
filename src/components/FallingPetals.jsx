@@ -41,23 +41,23 @@ const FallingPetals = () => {
           className="absolute pointer-events-none"
         >
           {p.isPetal ? (
-            // Soft Rose Petal SVG
+            // Lavender Rose Petal SVG
             <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full filter drop-shadow-sm opacity-75">
               <path 
                 d="M15 3C20 8 27 12 25 20C23 28 15 28 12 24C9 20 10 12 15 3Z" 
-                fill="url(#petalGradient)" 
+                fill="url(#lavenderPetalGradient)" 
               />
               <defs>
-                <linearGradient id="petalGradient" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#F7E7CE" />
-                  <stop offset="50%" stopColor="#E6C594" />
-                  <stop offset="100%" stopColor="#C5A059" />
+                <linearGradient id="lavenderPetalGradient" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#F3E8FF" />
+                  <stop offset="50%" stopColor="#D8B4FE" />
+                  <stop offset="100%" stopColor="#A855F7" />
                 </linearGradient>
               </defs>
             </svg>
           ) : (
-            // Golden Sparkle Star
-            <div className="w-full h-full rounded-full bg-gold-light/80 shadow-[0_0_8px_rgba(212,175,55,0.8)] animate-pulse" />
+            // Lavender Sparkle Star
+            <div className="w-full h-full rounded-full bg-purple-200/90 shadow-[0_0_8px_rgba(168,85,247,0.8)] animate-pulse" />
           )}
         </motion.div>
       ))}
