@@ -23,7 +23,7 @@ const RingsAnimation = () => {
   return (
     <section 
       ref={containerRef} 
-      className="relative min-h-screen w-full flex flex-col items-center justify-center bg-[#140C24] text-white overflow-hidden py-28 border-y border-champagne-dark/20"
+      className="relative min-h-screen w-full flex flex-col items-center justify-center bg-[#071913] text-white overflow-hidden py-28 border-y border-champagne-dark/20"
     >
       {/* Title Tag */}
       <motion.div
@@ -48,21 +48,21 @@ const RingsAnimation = () => {
         >
           <svg viewBox="0 0 100 100" className="w-full h-full">
             <defs>
-              <linearGradient id="ringMatteLavender" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#E9D5FF" />
-                <stop offset="50%" stopColor="#A855F7" />
-                <stop offset="100%" stopColor="#6B21A8" />
+              <linearGradient id="ringMatteGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F7E7CE" />
+                <stop offset="50%" stopColor="#C5A059" />
+                <stop offset="100%" stopColor="#9A7B38" />
               </linearGradient>
             </defs>
-            {/* Outer Lavender Band */}
-            <circle cx="50" cy="50" r="41" fill="none" stroke="url(#ringMatteLavender)" strokeWidth="8" />
-            <circle cx="50" cy="50" r="45" fill="none" stroke="#F4EFF9" strokeWidth="0.8" strokeOpacity="0.4" />
+            {/* Outer Gold Band */}
+            <circle cx="50" cy="50" r="41" fill="none" stroke="url(#ringMatteGold)" strokeWidth="8" />
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#F4EFEA" strokeWidth="0.8" strokeOpacity="0.4" />
             {/* Monogram S */}
             <text 
               x="50" 
               y="56" 
               textAnchor="middle" 
-              fill="#E9E1F5" 
+              fill="#EBDCB9" 
               fontSize="20" 
               fontFamily="Playfair Display" 
               fontWeight="600"
@@ -79,18 +79,18 @@ const RingsAnimation = () => {
         >
           <svg viewBox="0 0 100 100" className="w-full h-full">
             <defs>
-              <linearGradient id="ringLavenderSparkle" x1="100%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#FFFFFF" />
-                <stop offset="50%" stopColor="#C084FC" />
-                <stop offset="100%" stopColor="#7E22CE" />
+              <linearGradient id="ringRoseGold" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#FFF3D6" />
+                <stop offset="50%" stopColor="#D4AF37" />
+                <stop offset="100%" stopColor="#9A7B38" />
               </linearGradient>
             </defs>
-            {/* Outer Lavender Band */}
-            <circle cx="50" cy="50" r="41" fill="none" stroke="url(#ringLavenderSparkle)" strokeWidth="8" />
+            {/* Outer Gold Band */}
+            <circle cx="50" cy="50" r="41" fill="none" stroke="url(#ringRoseGold)" strokeWidth="8" />
             <circle cx="50" cy="50" r="45" fill="none" stroke="#FFFFFF" strokeWidth="0.8" strokeOpacity="0.5" />
             
             {/* Solitaire Diamond Setting */}
-            <polygon points="50,4 56,12 50,20 44,12" fill="#FFFFFF" stroke="#C084FC" strokeWidth="0.5" />
+            <polygon points="50,4 56,12 50,20 44,12" fill="#FFFFFF" stroke="#D4AF37" strokeWidth="0.5" />
             
             {/* Monogram A */}
             <text 

@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ivory: #FAF7FD;
-  --color-cream: #F4EFF9;
-  --color-champagne: #E9E1F5;
-  --color-champagne-dark: #936DBB;
-  --color-gold: #9333EA;
-  --color-gold-light: #E9D5FF;
-  --color-gold-dark: #7E22CE;
-  --color-rose-gold: #C084FC;
-  --color-emerald-dark: #1A0933;
-  --color-charcoal: #140C24;
-  --color-text-main: #231638;
-  --color-text-muted: #6E5B88;
+  --color-ivory: #FAF9F6;
+  --color-cream: #F4EFEA;
+  --color-champagne: #EBDCB9;
+  --color-champagne-dark: #C5A059;
+  --color-gold: #D4AF37;
+  --color-gold-light: #F7E7CE;
+  --color-gold-dark: #9A7B38;
+  --color-rose-gold: #D4AF37;
+  --color-emerald-dark: #0B221A;
+  --color-charcoal: #071913;
+  --color-text-main: #1A2B25;
+  --color-text-muted: #5A6E67;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-cormorant: 'Cormorant Garamond', serif;
@@ -45,31 +45,31 @@ html {
 }
 
 .gold-gradient-text {
-  background: linear-gradient(135deg, #9333EA 0%, #E9D5FF 25%, #A855F7 50%, #F3E8FF 75%, #7E22CE 100%);
+  background: linear-gradient(135deg, #C5A059 0%, #F7E7CE 25%, #D4AF37 50%, #FFF3D6 75%, #9A7B38 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gold-gradient-bg {
-  background: linear-gradient(135deg, #9333EA 0%, #E9D5FF 25%, #A855F7 50%, #F3E8FF 75%, #7E22CE 100%);
+  background: linear-gradient(135deg, #C5A059 0%, #F7E7CE 25%, #D4AF37 50%, #FFF3D6 75%, #9A7B38 100%);
 }
 
 .gold-border-gradient {
-  border-image: linear-gradient(to right, #9333EA, #E9D5FF, #A855F7, #7E22CE) 1;
+  border-image: linear-gradient(to right, #C5A059, #F7E7CE, #D4AF37, #9A7B38) 1;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(147, 51, 234, 0.2);
+  border: 1px solid rgba(197, 160, 89, 0.25);
 }
 
 .glass-card-dark {
-  background: rgba(20, 12, 36, 0.8);
+  background: rgba(7, 25, 19, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(147, 51, 234, 0.3);
+  border: 1px solid rgba(197, 160, 89, 0.35);
 }
 
 /* Soft floating animations */

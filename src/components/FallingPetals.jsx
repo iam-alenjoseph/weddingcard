@@ -28,7 +28,7 @@ const FallingPetals = () => {
           animate={{ 
             y: '110vh', 
             x: [`${p.x}vw`, `${p.x + (p.id % 2 === 0 ? 8 : -8)}vw`, `${p.x}vw`],
-            opacity: [0, 0.8, 0.8, 0], 
+            opacity: [0, 0.85, 0.85, 0], 
             rotate: p.rotate + 360 
           }}
           transition={{
@@ -41,23 +41,23 @@ const FallingPetals = () => {
           className="absolute pointer-events-none"
         >
           {p.isPetal ? (
-            // Lavender Rose Petal SVG
-            <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full filter drop-shadow-sm opacity-75">
+            // Golden Champagne Rose Petal SVG
+            <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full filter drop-shadow-sm opacity-80">
               <path 
                 d="M15 3C20 8 27 12 25 20C23 28 15 28 12 24C9 20 10 12 15 3Z" 
-                fill="url(#lavenderPetalGradient)" 
+                fill="url(#goldPetalGradient)" 
               />
               <defs>
-                <linearGradient id="lavenderPetalGradient" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#F3E8FF" />
-                  <stop offset="50%" stopColor="#D8B4FE" />
-                  <stop offset="100%" stopColor="#A855F7" />
+                <linearGradient id="goldPetalGradient" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#FFF3D6" />
+                  <stop offset="50%" stopColor="#F7E7CE" />
+                  <stop offset="100%" stopColor="#C5A059" />
                 </linearGradient>
               </defs>
             </svg>
           ) : (
-            // Lavender Sparkle Star
-            <div className="w-full h-full rounded-full bg-purple-200/90 shadow-[0_0_8px_rgba(168,85,247,0.8)] animate-pulse" />
+            // Golden Sparkle Star
+            <div className="w-full h-full rounded-full bg-amber-200/90 shadow-[0_0_8px_rgba(212,175,55,0.8)] animate-pulse" />
           )}
         </motion.div>
       ))}
