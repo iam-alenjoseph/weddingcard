@@ -2,6 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar, Clock, Sparkles, Navigation } from 'lucide-react';
 import { downloadICS } from '../utils/calendarHelper';
+import photo3 from '../assets/photo3.jpeg';
+import photo4 from '../assets/photo4.jpeg';
+import photo6 from '../assets/photo6.jpeg';
 
 const EventCard = ({ title, date, time, venue, location, imageSrc, mapUrl, icsEvent, delay }) => (
   <motion.div
@@ -130,7 +133,7 @@ const Events = () => {
             time="11:30 AM"
             venue="St. Jude Church, Judes Mount"
             location="Vellamunda 8/4"
-            imageSrc="./photos/photo3.jpeg"
+            imageSrc={photo3}
             mapUrl="https://maps.app.goo.gl/BQx1nZnEZxc53ZGW9?g_st=aw"
             icsEvent={engagementChurchEvent}
             delay={0.1}
@@ -141,7 +144,7 @@ const Events = () => {
             date="Monday, 19 October 2026"
             venue="Kaippani Residency"
             location="Vellamunda 8/4"
-            imageSrc="./photos/photo4.jpeg"
+            imageSrc={photo4}
             mapUrl="https://maps.app.goo.gl/iqSGocDitqhrdwDQ8?g_st=aw"
             icsEvent={engagementReceptionEvent}
             delay={0.2}
@@ -153,7 +156,7 @@ const Events = () => {
             time="12:00 PM (Noon)"
             venue="Mary Immaculate Church"
             location="Kundoor, Thrissur"
-            imageSrc="./photos/photo6.jpeg"
+            imageSrc={photo6}
             mapUrl="https://maps.google.com/?q=Mary+Immaculate+Church+Kundoor+Thrissur"
             icsEvent={weddingEvent}
             delay={0.3}
