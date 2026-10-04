@@ -50,7 +50,7 @@ const Hero = ({ openRSVP }) => {
       >
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/50 to-black/60 z-10" />
         <img 
-          src="/couple.png" 
+          src="./couple.png" 
           alt="Shanto & Anagha" 
           className="w-full h-full object-cover object-top scale-110 filter brightness-85 blur-md saturate-105"
         />

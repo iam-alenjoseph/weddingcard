@@ -51,7 +51,7 @@ const Story = () => {
               {/* Main Photo */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/5] group">
                 <img 
-                  src="/photos/photo2.jpeg" 
+                  src="./photos/photo2.jpeg" 
                   alt="Shanto & Anagha Story" 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -69,7 +69,7 @@ const Story = () => {
                 className="absolute -bottom-8 -right-6 w-1/2 aspect-square rounded-2xl overflow-hidden shadow-2xl border-4 border-white"
               >
                 <img 
-                  src="/photos/photo5.jpeg" 
+                  src="./photos/photo5.jpeg" 
                   alt="Shanto & Anagha Moment" 
                   className="w-full h-full object-cover"
                 />
