@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, Menu, X, Heart } from 'lucide-react';
+import { Volume2, VolumeX, Menu, X } from 'lucide-react';
 
-const Navbar = ({ isPlaying, toggleMusic, openRSVP }) => {
+const Navbar = ({ isPlaying, toggleMusic }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -18,7 +18,6 @@ const Navbar = ({ isPlaying, toggleMusic, openRSVP }) => {
     { name: 'Our Story', href: '#story' },
     { name: 'Events', href: '#events' },
     { name: 'Families', href: '#families' },
-    { name: 'Send Wishes', href: '#rsvp' },
   ];
 
   const handleNavClick = (e, href) => {
@@ -66,7 +65,7 @@ const Navbar = ({ isPlaying, toggleMusic, openRSVP }) => {
             ))}
           </nav>
 
-          {/* Actions: Music toggle & Send Wishes CTA */}
+          {/* Actions: Music toggle */}
           <div className="flex items-center gap-4">
             <button
               onClick={toggleMusic}
@@ -78,14 +77,6 @@ const Navbar = ({ isPlaying, toggleMusic, openRSVP }) => {
               title={isPlaying ? "Mute Background Music" : "Play Ambient Wedding Music"}
             >
               {isPlaying ? <Volume2 size={18} className="animate-pulse" /> : <VolumeX size={18} />}
-            </button>
-
-            <button
-              onClick={openRSVP}
-              className="hidden sm:flex items-center gap-2 px-5 py-2 rounded-full gold-gradient-bg text-charcoal font-medium text-xs uppercase tracking-wider shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
-            >
-              <Heart size={14} className="fill-charcoal" />
-              Send Wishes
             </button>
 
             {/* Mobile Menu Toggle */}
@@ -119,16 +110,6 @@ const Navbar = ({ isPlaying, toggleMusic, openRSVP }) => {
                   {link.name}
                 </a>
               ))}
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openRSVP();
-                }}
-                className="mt-4 py-3 rounded-full gold-gradient-bg text-charcoal font-medium text-sm uppercase tracking-wider shadow-lg flex items-center justify-center gap-2"
-              >
-                <Heart size={16} className="fill-charcoal" />
-                Send Wishes
-              </button>
             </div>
           </motion.div>
         )}

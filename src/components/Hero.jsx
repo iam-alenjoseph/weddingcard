@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Calendar, Heart, ChevronDown } from 'lucide-react';
+import { Calendar, ChevronDown } from 'lucide-react';
 import { downloadICS } from '../utils/calendarHelper';
 import coupleImg from '../assets/couple.png';
 
-const Hero = ({ openRSVP }) => {
+const Hero = () => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 600], [0, 180]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0.2]);
@@ -121,26 +121,18 @@ const Hero = ({ openRSVP }) => {
           ))}
         </motion.div>
 
-        {/* Action Buttons (Clean look) */}
+        {/* Action Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.4 }}
+          transition={{ duration: 1.2, delay: 1.4 }}
           className="flex flex-wrap items-center justify-center gap-4"
         >
           <button
-            onClick={openRSVP}
+            onClick={() => downloadICS(weddingEvent)}
             className="px-8 py-3.5 rounded-full gold-gradient-bg text-charcoal font-semibold text-sm uppercase tracking-widest shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 flex items-center gap-2"
           >
-            <Heart size={16} className="fill-charcoal" />
-            Send Wishes
-          </button>
-
-          <button
-            onClick={() => downloadICS(weddingEvent)}
-            className="px-6 py-3.5 rounded-full text-champagne hover:text-white font-medium text-sm uppercase tracking-wider transition-all duration-300 flex items-center gap-2"
-          >
-            <Calendar size={16} className="text-gold" />
+            <Calendar size={16} className="text-charcoal" />
             Add to Calendar
           </button>
         </motion.div>
