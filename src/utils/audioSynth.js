@@ -1,8 +1,13 @@
-// Ambient Wedding Piano Synthesizer using Web Audio API
+// Lush Ambient Wedding Synthesizer (Pachelbel's Canon in D & Romantic Arpeggios)
+// Built with Web Audio API using multi-harmonics, warmth filtering & ambient reverb sustain.
+
 class AudioSynth {
   constructor() {
     this.ctx = null;
     this.masterGain = null;
+    this.filterNode = null;
+    this.delayNode = null;
+    this.feedbackGain = null;
     this.isPlaying = false;
     this.timer = null;
     this.activeNodes = [];
@@ -14,41 +19,80 @@ class AudioSynth {
       this.ctx = new AudioContext();
     }
     
-    // Always recreate masterGain when starting
-    if (!this.masterGain && this.ctx) {
+    if (this.ctx && !this.masterGain) {
+      // Master Gain for smooth volume control
       this.masterGain = this.ctx.createGain();
-      this.masterGain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+      this.masterGain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+
+      // Lowpass Filter for warm acoustic piano/harp timbre
+      this.filterNode = this.ctx.createBiquadFilter();
+      this.filterNode.type = 'lowpass';
+      this.filterNode.frequency.setValueAtTime(1400, this.ctx.currentTime);
+      this.filterNode.Q.setValueAtTime(1.2, this.ctx.currentTime);
+
+      // Ambient Delay/Reverb Tail Node
+      this.delayNode = this.ctx.createDelay();
+      this.delayNode.delayTime.setValueAtTime(0.35, this.ctx.currentTime);
+
+      this.feedbackGain = this.ctx.createGain();
+      this.feedbackGain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+
+      // Connect delay loop
+      this.delayNode.connect(this.feedbackGain);
+      this.feedbackGain.connect(this.delayNode);
+
+      // Connect Signal Chain: Nodes -> Filter -> Master & Delay -> Output
+      this.filterNode.connect(this.masterGain);
+      this.filterNode.connect(this.delayNode);
+      this.delayNode.connect(this.masterGain);
       this.masterGain.connect(this.ctx.destination);
     }
   }
 
-  playNote(freq, duration = 3.0, type = 'sine') {
+  // Play a warm composite acoustic note with overtones & envelope
+  playTone(freq, gainVal = 0.12, duration = 3.5, octaveSub = false) {
     if (!this.ctx || !this.isPlaying || this.ctx.state !== 'running') return;
     
     try {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-      
       const now = this.ctx.currentTime;
-      gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(0.12, now + 0.08);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
-      osc.connect(gain);
-      if (this.masterGain) {
-        gain.connect(this.masterGain);
+      // Fundamental Oscillator
+      const osc1 = this.ctx.createOscillator();
+      osc1.type = octaveSub ? 'triangle' : 'sine';
+      osc1.frequency.setValueAtTime(freq, now);
+
+      // Warm Soft OverTone Oscillator
+      const osc2 = this.ctx.createOscillator();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(freq * 2.002, now); // Slightly detuned overtone
+
+      const noteGain = this.ctx.createGain();
+      noteGain.gain.setValueAtTime(0, now);
+      noteGain.gain.linearRampToValueAtTime(gainVal, now + 0.06); // Soft attack
+      noteGain.gain.exponentialRampToValueAtTime(0.0001, now + duration); // Long romantic decay
+
+      const overtoneGain = this.ctx.createGain();
+      overtoneGain.gain.setValueAtTime(gainVal * 0.25, now);
+      overtoneGain.gain.exponentialRampToValueAtTime(0.0001, now + (duration * 0.7));
+
+      osc1.connect(noteGain);
+      osc2.connect(overtoneGain);
+      overtoneGain.connect(noteGain);
+
+      if (this.filterNode) {
+        noteGain.connect(this.filterNode);
+      } else if (this.masterGain) {
+        noteGain.connect(this.masterGain);
       }
 
-      osc.start(now);
-      osc.stop(now + duration);
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + duration);
+      osc2.stop(now + duration);
 
-      // Track active node for immediate cancellation
-      this.activeNodes.push(osc);
-      osc.onended = () => {
-        this.activeNodes = this.activeNodes.filter(n => n !== osc);
+      this.activeNodes.push(osc1, osc2);
+      osc1.onended = () => {
+        this.activeNodes = this.activeNodes.filter(n => n !== osc1 && n !== osc2);
       };
     } catch (e) {
       console.warn("Audio note error:", e);
@@ -66,34 +110,54 @@ class AudioSynth {
 
     if (this.masterGain && this.ctx) {
       this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
-      this.masterGain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+      this.masterGain.gain.setValueAtTime(0.28, this.ctx.currentTime);
     }
 
-    const melody = [
-      { main: 523.25, sub: 261.63 }, // C5 + C4
-      { main: 659.25, sub: 329.63 }, // E5 + E4
-      { main: 783.99, sub: 392.00 }, // G5 + G4
-      { main: 1046.50, sub: 523.25 }, // C6 + C5
-      { main: 880.00, sub: 440.00 }, // A5 + A4
-      { main: 659.25, sub: 329.63 }, // E5 + E4
-      { main: 698.46, sub: 349.23 }, // F5 + F4
-      { main: 880.00, sub: 440.00 }, // A5 + A4
-      { main: 587.33, sub: 293.66 }, // D5 + D4
-      { main: 783.99, sub: 392.00 }, // G5 + G4
-      { main: 987.77, sub: 493.88 }, // B5 + B4
-      { main: 659.25, sub: 329.63 }, // E5 + E4
+    // Pachelbel's Canon in D Chord Sequence (D - A - Bm - F#m - G - D - G - A)
+    const canonSequence = [
+      // 1. D Major (D3 Bass + D4/F#4/A4/D5 Arpeggio)
+      { bass: 146.83, arpeggio: [293.66, 369.99, 440.00, 587.33] },
+      // 2. A Major (A2 Bass + C#4/E4/A4/C#5 Arpeggio)
+      { bass: 110.00, arpeggio: [277.18, 329.63, 440.00, 554.37] },
+      // 3. B Minor (B2 Bass + D4/F#4/B4/D5 Arpeggio)
+      { bass: 123.47, arpeggio: [293.66, 369.99, 493.88, 587.33] },
+      // 4. F# Minor (F#2 Bass + C#4/F#4/A4/C#5 Arpeggio)
+      { bass: 92.50,  arpeggio: [277.18, 369.99, 440.00, 554.37] },
+      // 5. G Major (G2 Bass + D4/G4/B4/D5 Arpeggio)
+      { bass: 98.00,  arpeggio: [293.66, 392.00, 493.88, 587.33] },
+      // 6. D Major (D2 Bass + D4/F#4/A4/F#5 Arpeggio)
+      { bass: 73.42,  arpeggio: [293.66, 369.99, 440.00, 739.99] },
+      // 7. G Major (G2 Bass + D4/G4/B4/G5 Arpeggio)
+      { bass: 98.00,  arpeggio: [293.66, 392.00, 493.88, 783.99] },
+      // 8. A Major (A2 Bass + E4/A4/C#5/E5 Arpeggio)
+      { bass: 110.00, arpeggio: [329.63, 440.00, 554.37, 659.25] },
     ];
 
-    let index = 0;
+    let chordIdx = 0;
+    let noteIdx = 0;
+
     const loop = () => {
       if (!this.isPlaying) return;
-      
-      const note = melody[index];
-      this.playNote(note.main, 3.2, 'sine');
-      this.playNote(note.sub, 4.0, 'triangle');
 
-      index = (index + 1) % melody.length;
-      this.timer = setTimeout(loop, 800);
+      const currentChord = canonSequence[chordIdx];
+
+      // Play bass root on step 0
+      if (noteIdx === 0) {
+        this.playTone(currentChord.bass, 0.15, 4.5, true);
+      }
+
+      // Play arpeggio note
+      const arpNote = currentChord.arpeggio[noteIdx];
+      this.playTone(arpNote, 0.10, 3.2, false);
+
+      noteIdx++;
+      if (noteIdx >= currentChord.arpeggio.length) {
+        noteIdx = 0;
+        chordIdx = (chordIdx + 1) % canonSequence.length;
+      }
+
+      // Smooth rhythmic tempo (~420ms per arpeggio note)
+      this.timer = setTimeout(loop, 420);
     };
 
     loop();
@@ -102,13 +166,11 @@ class AudioSynth {
   stopMelody() {
     this.isPlaying = false;
 
-    // 1. Clear timeout loop immediately
     if (this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
     }
 
-    // 2. Stop and disconnect all active playing oscillator nodes
     if (this.activeNodes && this.activeNodes.length > 0) {
       this.activeNodes.forEach(node => {
         try {
@@ -121,7 +183,6 @@ class AudioSynth {
       this.activeNodes = [];
     }
 
-    // 3. Mute & suspend audio context immediately
     if (this.ctx) {
       try {
         if (this.masterGain) {
