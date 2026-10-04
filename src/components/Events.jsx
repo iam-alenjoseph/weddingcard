@@ -134,7 +134,7 @@ const Events = () => {
             venue="St. Jude Church, Judes Mount"
             location="Vellamunda 8/4"
             imageSrc={photo3}
-            mapUrl="https://maps.app.goo.gl/BQx1nZnEZxc53ZGW9?g_st=aw"
+            mapUrl="https://maps.app.goo.gl/PCbBL73Raf1jotrH9?g_st=aw"
             icsEvent={engagementChurchEvent}
             delay={0.1}
           />
